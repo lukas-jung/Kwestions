@@ -8,9 +8,12 @@ qt_standard_project_setup()
 qt_add_executable(FirstSteps
     WIN32 MACOSX_BUNDLE
     main.cpp
-    mainwindow.cpp
     mainwindow.h
+    mainwindow.cpp
     mainwindow.ui
+    addquestiondialog.h
+    addquestiondialog.cpp
+    addquestiondialog.ui
 )
 
 target_link_libraries(FirstSteps
