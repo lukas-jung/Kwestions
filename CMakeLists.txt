@@ -14,6 +14,10 @@ qt_add_executable(Qwestions
     addquestiondialog.h
     addquestiondialog.cpp
     addquestiondialog.ui
+    questionmodel.h
+    questionmodel.cpp
+    business_logic/question.h
+    business_logic/question.cpp
 )
 
 target_link_libraries(Qwestions

@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 #include "addquestiondialog.h"
+#include "questionmodel.h"
 #include <QMainWindow>
 #include <QPointer>
-#include <QStandardItemModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,7 +25,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QStandardItemModel *m_itemModel;
+    QuestionModel *m_itemModel;
     QPointer<AddQuestionDialog> m_addQuestionDialog;
 };
 #endif // MAINWINDOW_H
