@@ -61,3 +61,13 @@ QVariant QuestionModel::data(const QModelIndex &index, int role) const
 
     return QVariant();
 }
+
+void QuestionModel::appendQuestion(qwestions::Question question)
+{
+    int insertion_position = m_questions.size();
+    beginInsertRows(QModelIndex(), insertion_position, insertion_position);
+
+    m_questions.push_back(question);
+
+    endInsertRows();
+}

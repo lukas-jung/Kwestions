@@ -1,15 +1,15 @@
-#ifndef QUESTIONMODEL_H
-#define QUESTIONMODEL_H
+#ifndef RESPONSEOPTIONMODEL_H
+#define RESPONSEOPTIONMODEL_H
 
 #include "business_logic/question.h"
 #include <QAbstractItemModel>
 
-class QuestionModel : public QAbstractItemModel
+class ResponseOptionModel : public QAbstractItemModel
 {
     Q_OBJECT
 
 public:
-    explicit QuestionModel(QObject *parent = nullptr);
+    explicit ResponseOptionModel(qwestions::Question &question, QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section,
@@ -25,12 +25,15 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    // Custom methods:
+    // Editable:
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 
-    void appendQuestion(qwestions::Question question);
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+
+    void appendEmptyResponseOption();
 
 private:
-    std::vector<qwestions::Question> m_questions;
+    qwestions::Question &m_question;
 };
 
-#endif // QUESTIONMODEL_H
+#endif // RESPONSEOPTIONMODEL_H

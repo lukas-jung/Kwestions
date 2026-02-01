@@ -23,6 +23,9 @@ void MainWindow::showAddQuestionDialog()
 {
     if (!m_addQuestionDialog) {
         m_addQuestionDialog = new AddQuestionDialog(this);
+        connect(m_addQuestionDialog, &QDialog::accepted, [this]() {
+            m_itemModel->appendQuestion(this->m_addQuestionDialog->question());
+        });
     }
     m_addQuestionDialog->open();
 }
