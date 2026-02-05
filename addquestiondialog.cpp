@@ -12,9 +12,10 @@ AddQuestionDialog::AddQuestionDialog(QWidget *parent)
     responseOptionModel_ = new ResponseOptionModel(question_ptr_.get(), this);
     ui->treeView->setModel(responseOptionModel_);
 
-    responseOptionModel_->append_empty_response_option();
-    responseOptionModel_->append_empty_response_option();
-    responseOptionModel_->append_empty_response_option();
+    connect(ui->toolButton,
+            &QToolButton::clicked,
+            responseOptionModel_,
+            &ResponseOptionModel::append_empty_response_option);
 }
 
 AddQuestionDialog::~AddQuestionDialog()
