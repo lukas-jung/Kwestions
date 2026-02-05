@@ -53,12 +53,17 @@ QVariant ResponseOptionModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+    if (role != Qt::DisplayRole && role != Qt::EditRole) {
+        return QVariant();
+    } else {
         const qwestions::ResponseOption &option = question_ptr_->options()[index.row()];
+
+        if (option.text().empty() && role == Qt::DisplayRole) {
+            return QVariant("<LEERE ANTWORT>");
+        }
+
         return QVariant(QString::fromStdString(option.text()));
     }
-
-    return QVariant();
 }
 
 bool ResponseOptionModel::setData(const QModelIndex &index, const QVariant &value, int role)
