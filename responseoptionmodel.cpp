@@ -53,7 +53,7 @@ QVariant ResponseOptionModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    if (role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
         const qwestions::ResponseOption &option = question_ptr_->options()[index.row()];
         return QVariant(QString::fromStdString(option.text()));
     }
