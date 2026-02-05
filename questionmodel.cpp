@@ -3,9 +3,9 @@
 QuestionModel::QuestionModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
-    m_questions.push_back(qwestions::Question("Hello?"));
-    m_questions.push_back(qwestions::Question("Hello? Anyone there?"));
-    m_questions.push_back(qwestions::Question("Helloooooo?"));
+    questions_.push_back(qwestions::Question("Hello?"));
+    questions_.push_back(qwestions::Question("Hello? Anyone there?"));
+    questions_.push_back(qwestions::Question("Helloooooo?"));
 }
 
 QVariant QuestionModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -36,7 +36,7 @@ int QuestionModel::rowCount(const QModelIndex &parent) const
         return 0;
     }
 
-    return m_questions.size();
+    return questions_.size();
 }
 
 int QuestionModel::columnCount(const QModelIndex &parent) const
@@ -55,19 +55,19 @@ QVariant QuestionModel::data(const QModelIndex &index, int role) const
     }
 
     if (role == Qt::DisplayRole) {
-        const qwestions::Question &question = m_questions.at(index.row());
+        const qwestions::Question &question = questions_.at(index.row());
         return QVariant(QString::fromStdString(question.text()));
     }
 
     return QVariant();
 }
 
-void QuestionModel::appendQuestion(qwestions::Question question)
+void QuestionModel::append_question(qwestions::Question question)
 {
-    int insertion_position = m_questions.size();
+    int insertion_position = questions_.size();
     beginInsertRows(QModelIndex(), insertion_position, insertion_position);
 
-    m_questions.push_back(question);
+    questions_.push_back(question);
 
     endInsertRows();
 }

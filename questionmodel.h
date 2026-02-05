@@ -27,10 +27,10 @@ public:
 
     // Custom methods:
 
-    void appendQuestion(qwestions::Question question);
+    void append_question(qwestions::Question question);
 
 private:
-    std::vector<qwestions::Question> m_questions;
+    std::vector<qwestions::Question> questions_;
 };
 
 #endif // QUESTIONMODEL_H

@@ -12,7 +12,7 @@ public:
     const std::string &text() const;
 
 private:
-    std::string m_text;
+    std::string text_;
 };
 
 } // namespace qwestions

@@ -25,7 +25,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QuestionModel *m_itemModel;
-    QPointer<AddQuestionDialog> m_addQuestionDialog;
+    QuestionModel *questionItemModel_;
+    QPointer<AddQuestionDialog> addQuestionDialog_;
 };
 #endif // MAINWINDOW_H

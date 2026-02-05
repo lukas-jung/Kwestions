@@ -9,7 +9,7 @@ class ResponseOptionModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    explicit ResponseOptionModel(qwestions::Question &question, QObject *parent = nullptr);
+    explicit ResponseOptionModel(qwestions::Question *question_ptr, QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section,
@@ -30,10 +30,12 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-    void appendEmptyResponseOption();
+    void append_empty_response_option();
+
+    void reset_question(qwestions::Question *question_ptr);
 
 private:
-    qwestions::Question &m_question;
+    qwestions::Question *question_ptr_;
 };
 
 #endif // RESPONSEOPTIONMODEL_H

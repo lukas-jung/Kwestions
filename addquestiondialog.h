@@ -18,7 +18,7 @@ public:
     explicit AddQuestionDialog(QWidget *parent = nullptr);
     ~AddQuestionDialog();
 
-    qwestions::Question question();
+    std::unique_ptr<qwestions::Question> get_and_reset_question();
 
     // public slots:
     //     void accept() override;
@@ -26,9 +26,9 @@ public:
 private:
     Ui::AddQuestionDialog *ui;
 
-    qwestions::Question m_question;
+    std::unique_ptr<qwestions::Question> question_ptr_;
 
-    ResponseOptionModel m_response_option_model;
+    ResponseOptionModel *responseOptionModel_;
 };
 
 #endif // ADDQUESTIONDIALOG_H

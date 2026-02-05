@@ -2,35 +2,33 @@
 
 namespace qwestions {
 
-Question::Question() {}
-
 Question::Question(std::string text)
-    : m_text(text)
+    : text_(text)
 {}
 
 const std::string &Question::text() const
 {
-    return m_text;
+    return text_;
 }
 
 const std::span<const ResponseOption> Question::options() const
 {
-    return m_response_options;
+    return response_options_;
 }
 
-void Question::appendOption(ResponseOption option)
+void Question::append_option(ResponseOption option)
 {
-    m_response_options.push_back(option);
+    response_options_.push_back(option);
 }
 
-void Question::setOptionAtIndex(size_t index, ResponseOption option)
+void Question::set_option_at_index(size_t index, ResponseOption option)
 {
-    m_response_options.at(index) = option;
+    response_options_.at(index) = option;
 }
 
-void Question::setText(const std::string &text)
+void Question::set_text(const std::string &text)
 {
-    m_text = text;
+    text_ = text;
 }
 
 } // namespace qwestions

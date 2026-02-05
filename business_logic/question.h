@@ -11,19 +11,19 @@ namespace qwestions {
 class Question
 {
 public:
-    Question();
+    Question() = default;
     explicit Question(std::string text);
 
     const std::string &text() const;
     const std::span<const ResponseOption> options() const;
-    void appendOption(ResponseOption option);
-    void setOptionAtIndex(size_t index, ResponseOption option);
+    void append_option(ResponseOption option);
+    void set_option_at_index(size_t index, ResponseOption option);
 
-    void setText(const std::string &text);
+    void set_text(const std::string &text);
 
 private:
-    std::string m_text;
-    std::vector<ResponseOption> m_response_options;
+    std::string text_;
+    std::vector<ResponseOption> response_options_;
 };
 
 } // namespace qwestions

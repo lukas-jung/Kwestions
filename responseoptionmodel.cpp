@@ -2,9 +2,9 @@
 
 #include "business_logic/responseoption.h"
 
-ResponseOptionModel::ResponseOptionModel(qwestions::Question &question, QObject *parent)
+ResponseOptionModel::ResponseOptionModel(qwestions::Question *question_ptr, QObject *parent)
     : QAbstractItemModel(parent)
-    , m_question(question)
+    , question_ptr_(question_ptr)
 {}
 
 QVariant ResponseOptionModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -35,7 +35,7 @@ int ResponseOptionModel::rowCount(const QModelIndex &parent) const
         return 0;
     }
 
-    return m_question.options().size();
+    return question_ptr_->options().size();
 }
 
 int ResponseOptionModel::columnCount(const QModelIndex &parent) const
@@ -54,7 +54,7 @@ QVariant ResponseOptionModel::data(const QModelIndex &index, int role) const
     }
 
     if (role == Qt::DisplayRole) {
-        const qwestions::ResponseOption &option = m_question.options()[index.row()];
+        const qwestions::ResponseOption &option = question_ptr_->options()[index.row()];
         return QVariant(QString::fromStdString(option.text()));
     }
 
@@ -64,8 +64,9 @@ QVariant ResponseOptionModel::data(const QModelIndex &index, int role) const
 bool ResponseOptionModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
-        m_question.setOptionAtIndex(index.row(),
-                                    qwestions::ResponseOption(value.toString().toStdString()));
+        question_ptr_->set_option_at_index(index.row(),
+                                           qwestions::ResponseOption(
+                                               value.toString().toStdString()));
 
         emit dataChanged(index, index, {role});
         return true;
@@ -81,12 +82,19 @@ Qt::ItemFlags ResponseOptionModel::flags(const QModelIndex &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-void ResponseOptionModel::appendEmptyResponseOption()
+void ResponseOptionModel::append_empty_response_option()
 {
-    int insertion_position = m_question.options().size();
+    int insertion_position = question_ptr_->options().size();
     beginInsertRows(QModelIndex(), insertion_position, insertion_position);
 
-    m_question.appendOption(qwestions::ResponseOption(""));
+    question_ptr_->append_option(qwestions::ResponseOption(""));
 
     endInsertRows();
+}
+
+void ResponseOptionModel::reset_question(qwestions::Question *question_ptr)
+{
+    beginResetModel();
+    question_ptr_ = question_ptr;
+    endResetModel();
 }

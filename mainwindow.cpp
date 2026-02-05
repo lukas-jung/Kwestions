@@ -7,9 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    m_itemModel = new QuestionModel(this);
+    questionItemModel_ = new QuestionModel(this);
 
-    ui->treeView->setModel(this->m_itemModel);
+    ui->treeView->setModel(this->questionItemModel_);
 
     connect(ui->addQuestionButton, &QPushButton::clicked, this, &MainWindow::showAddQuestionDialog);
 }
@@ -21,12 +21,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::showAddQuestionDialog()
 {
-    if (!m_addQuestionDialog) {
-        m_addQuestionDialog = new AddQuestionDialog(this);
-        connect(m_addQuestionDialog, &QDialog::accepted, [this]() {
-            m_itemModel->appendQuestion(this->m_addQuestionDialog->question());
+    if (!addQuestionDialog_) {
+        addQuestionDialog_ = new AddQuestionDialog(this);
+        connect(addQuestionDialog_, &QDialog::accepted, [this]() {
+            questionItemModel_->append_question(*this->addQuestionDialog_->get_and_reset_question());
         });
     }
-    m_addQuestionDialog->open();
+    addQuestionDialog_->open();
 }
 

@@ -3,12 +3,12 @@
 namespace qwestions {
 
 ResponseOption::ResponseOption(std::string text)
-    : m_text(text)
+    : text_(text)
 {}
 
 const std::string &ResponseOption::text() const
 {
-    return m_text;
+    return text_;
 }
 
 } // namespace qwestions
