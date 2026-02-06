@@ -2,7 +2,7 @@
 
 #include "business_logic/responseoption.h"
 
-ResponseOptionModel::ResponseOptionModel(qwestions::Question *question_ptr, QObject *parent)
+ResponseOptionModel::ResponseOptionModel(kwestions::Question *question_ptr, QObject *parent)
     : QAbstractItemModel(parent)
     , question_ptr_(question_ptr)
 {}
@@ -56,7 +56,7 @@ QVariant ResponseOptionModel::data(const QModelIndex &index, int role) const
     if (role != Qt::DisplayRole && role != Qt::EditRole) {
         return QVariant();
     } else {
-        const qwestions::ResponseOption &option = question_ptr_->options()[index.row()];
+        const kwestions::ResponseOption &option = question_ptr_->options()[index.row()];
 
         if (option.text().empty() && role == Qt::DisplayRole) {
             return QVariant("<LEERE ANTWORT>");
@@ -70,7 +70,7 @@ bool ResponseOptionModel::setData(const QModelIndex &index, const QVariant &valu
 {
     if (data(index, role) != value) {
         question_ptr_->set_option_at_index(index.row(),
-                                           qwestions::ResponseOption(
+                                           kwestions::ResponseOption(
                                                value.toString().toStdString()));
 
         emit dataChanged(index, index, {role});
@@ -92,12 +92,12 @@ void ResponseOptionModel::append_empty_response_option()
     int insertion_position = question_ptr_->options().size();
     beginInsertRows(QModelIndex(), insertion_position, insertion_position);
 
-    question_ptr_->append_option(qwestions::ResponseOption(""));
+    question_ptr_->append_option(kwestions::ResponseOption(""));
 
     endInsertRows();
 }
 
-void ResponseOptionModel::reset_question(qwestions::Question *question_ptr)
+void ResponseOptionModel::reset_question(kwestions::Question *question_ptr)
 {
     beginResetModel();
     question_ptr_ = question_ptr;

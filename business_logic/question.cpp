@@ -1,6 +1,6 @@
 #include "question.h"
 
-namespace qwestions {
+namespace kwestions {
 
 Question::Question(std::string text)
     : text_(text)
@@ -31,4 +31,4 @@ void Question::set_text(const std::string &text)
     text_ = text;
 }
 
-} // namespace qwestions
+} // namespace kwestions

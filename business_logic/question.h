@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace qwestions {
+namespace kwestions {
 
 class Question
 {
@@ -26,6 +26,6 @@ private:
     std::vector<ResponseOption> response_options_;
 };
 
-} // namespace qwestions
+} // namespace kwestions
 
 #endif // QUESTION_H

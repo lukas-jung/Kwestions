@@ -4,7 +4,7 @@
 AddQuestionDialog::AddQuestionDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddQuestionDialog)
-    , question_ptr_(std::make_unique<qwestions::Question>())
+    , question_ptr_(std::make_unique<kwestions::Question>())
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
@@ -23,9 +23,9 @@ AddQuestionDialog::~AddQuestionDialog()
     delete ui;
 }
 
-std::unique_ptr<qwestions::Question> AddQuestionDialog::get_and_reset_question()
+std::unique_ptr<kwestions::Question> AddQuestionDialog::get_and_reset_question()
 {
-    auto question_ptr = std::exchange(question_ptr_, std::make_unique<qwestions::Question>());
+    auto question_ptr = std::exchange(question_ptr_, std::make_unique<kwestions::Question>());
     responseOptionModel_->reset_question(question_ptr_.get());
 
     question_ptr->set_text(ui->plainTextEdit->toPlainText().toStdString());

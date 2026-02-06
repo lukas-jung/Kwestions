@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace qwestions {
+namespace kwestions {
 
 class ResponseOption
 {
@@ -15,6 +15,6 @@ private:
     std::string text_;
 };
 
-} // namespace qwestions
+} // namespace kwestions
 
 #endif // RESPONSEOPTION_H
