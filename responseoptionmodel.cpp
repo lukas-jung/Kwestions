@@ -1,6 +1,7 @@
 #include "responseoptionmodel.h"
 
 #include "business_logic/responseoption.h"
+#include <QMimeData>
 
 namespace {
 enum class ResponseOptionCol : int { number = 0, text = 1 };
@@ -88,8 +89,27 @@ QVariant ResponseOptionModel::data(const QModelIndex &index, int role) const
     }
 }
 
+Qt::ItemFlags ResponseOptionModel::flags(const QModelIndex &index) const
+{
+    if (!index.isValid()) {
+        return Qt::NoItemFlags | Qt::ItemIsDropEnabled;
+    }
+
+    const Qt::ItemFlags flags = QAbstractItemModel::flags(index) | Qt::ItemIsDragEnabled;
+
+    switch (ResponseOptionCol(index.column())) {
+    case ResponseOptionCol::number:
+        return flags;
+    case ResponseOptionCol::text:
+        return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+    default:
+        return Qt::NoItemFlags;
+    }
+}
+
 bool ResponseOptionModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    // std::cout << value.typeName() << std::endl;
     if (data(index, role) != value) {
         question_ptr_->set_option_at_index(index.row(),
                                            kwestions::ResponseOption(
@@ -101,20 +121,65 @@ bool ResponseOptionModel::setData(const QModelIndex &index, const QVariant &valu
     return false;
 }
 
-Qt::ItemFlags ResponseOptionModel::flags(const QModelIndex &index) const
+bool ResponseOptionModel::dropMimeData(
+    const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
-    if (!index.isValid()) {
-        return Qt::NoItemFlags;
+    if (parent.isValid()) {
+        return false;
     }
 
-    switch (ResponseOptionCol(index.column())) {
-    case ResponseOptionCol::number:
-        return QAbstractItemModel::flags(index);
-    case ResponseOptionCol::text:
-        return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
-    default:
-        return Qt::NoItemFlags;
+    if (data == nullptr || action != Qt::MoveAction) {
+        return false;
     }
+
+    QList<QString> mime_types = mimeTypes();
+    if (mime_types.isEmpty()) {
+        return false;
+    }
+
+    QString mime_type = mime_types.at(0);
+    if (!data->hasFormat(mime_type)) {
+        return false;
+    }
+
+    if (row > rowCount(parent)) {
+        row = rowCount(parent);
+    }
+
+    if (row == -1) {
+        row = rowCount(parent);
+    }
+
+    QByteArray encoded = data->data(mime_type);
+    QDataStream stream(&encoded, QDataStream::ReadOnly);
+
+    int source_row;
+    stream >> source_row;
+
+    return move_row_from_to(source_row, row);
+}
+
+bool ResponseOptionModel::move_row_from_to(int source_row, int destination_row)
+{
+    if (!beginMoveRows(QModelIndex(), source_row, source_row, QModelIndex(), destination_row)) {
+        return false;
+    }
+
+    // The business logic can't work with the +1 shifted indices that appear when moving downwards.
+    int destination_index = destination_row;
+    if (destination_row > source_row) {
+        destination_index--;
+    }
+
+    question_ptr_->move_option_from_to(source_row, destination_index);
+
+    endMoveRows();
+    return true;
+}
+
+Qt::DropActions ResponseOptionModel::supportedDropActions() const
+{
+    return Qt::MoveAction;
 }
 
 void ResponseOptionModel::append_empty_response_option()
