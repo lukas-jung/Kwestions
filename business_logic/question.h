@@ -17,7 +17,8 @@ public:
     const std::string &text() const;
     const std::span<const ResponseOption> options() const;
     void append_option(ResponseOption option);
-    void set_option_at_index(size_t index, ResponseOption option);
+    void set_option_at_index(std::size_t index, ResponseOption option);
+    bool move_option_from_to(std::size_t from, std::size_t to);
 
     void set_text(const std::string &text);
 
