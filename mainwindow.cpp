@@ -7,10 +7,26 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    questionItemModel_ = new QuestionModel(this);
+    questionnaires_.emplace_back();
+    questionnaires_.emplace_back();
+    questionnaires_.emplace_back();
+    questionnaires_.emplace_back();
+    questionnaires_.at(0).set_title("banana0");
+    questionnaires_.at(1).set_title("banana1");
+    questionnaires_.at(2).set_title("banana2");
+    questionnaires_.at(3).set_title("banana3");
 
+    questionnaireSelectionModel_ = new QuestionnaireSelectionModel(&questionnaires_, this);
+
+    questionItemModel_ = new QuestionModel(nullptr, this);
+
+    ui->comboBox->setModel(questionnaireSelectionModel_);
     ui->treeView->setModel(this->questionItemModel_);
 
+    connect(ui->comboBox, &QComboBox::currentIndexChanged, [this](int index) {
+        this->questionItemModel_->set_questionnaire(index == -1 ? nullptr
+                                                                : &questionnaires_.at(index));
+    });
     connect(ui->addQuestionButton, &QPushButton::clicked, this, &MainWindow::showAddQuestionDialog);
 }
 

@@ -3,6 +3,7 @@
 
 #include "addquestiondialog.h"
 #include "questionmodel.h"
+#include "questionnaireselectionmodel.h"
 #include <QMainWindow>
 #include <QPointer>
 
@@ -25,6 +26,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    std::vector<kwestions::Questionnaire> questionnaires_;
+    QuestionnaireSelectionModel *questionnaireSelectionModel_;
     QuestionModel *questionItemModel_;
     QPointer<AddQuestionDialog> addQuestionDialog_;
 };

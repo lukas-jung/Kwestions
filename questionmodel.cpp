@@ -1,11 +1,12 @@
 #include "questionmodel.h"
 
-QuestionModel::QuestionModel(QObject *parent)
+QuestionModel::QuestionModel(kwestions::Questionnaire *questionnaire, QObject *parent)
     : QAbstractItemModel(parent)
+    , questionnaire_(questionnaire)
 {
-    questions_.push_back(kwestions::Question("Hello?"));
-    questions_.push_back(kwestions::Question("Hello? Anyone there?"));
-    questions_.push_back(kwestions::Question("Helloooooo?"));
+    // questions_.push_back(kwestions::Question("Hello?"));
+    // questions_.push_back(kwestions::Question("Hello? Anyone there?"));
+    // questions_.push_back(kwestions::Question("Helloooooo?"));
 }
 
 QVariant QuestionModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -36,7 +37,7 @@ int QuestionModel::rowCount(const QModelIndex &parent) const
         return 0;
     }
 
-    return questions_.size();
+    return questionnaire_ ? questionnaire_->questions().size() : 0;
 }
 
 int QuestionModel::columnCount(const QModelIndex &parent) const
@@ -54,8 +55,8 @@ QVariant QuestionModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    if (role == Qt::DisplayRole) {
-        const kwestions::Question &question = questions_.at(index.row());
+    if (role == Qt::DisplayRole && questionnaire_) {
+        const kwestions::Question &question = questionnaire_->questions()[index.row()];
         return QVariant(QString::fromStdString(question.text()));
     }
 
@@ -64,10 +65,19 @@ QVariant QuestionModel::data(const QModelIndex &index, int role) const
 
 void QuestionModel::append_question(kwestions::Question question)
 {
-    int insertion_position = questions_.size();
-    beginInsertRows(QModelIndex(), insertion_position, insertion_position);
+    if (questionnaire_) {
+        int insertion_position = questionnaire_->questions().size();
+        beginInsertRows(QModelIndex(), insertion_position, insertion_position);
 
-    questions_.push_back(question);
+        questionnaire_->append_question(question);
 
-    endInsertRows();
+        endInsertRows();
+    }
+}
+
+void QuestionModel::set_questionnaire(kwestions::Questionnaire *questionnaire)
+{
+    beginResetModel();
+    questionnaire_ = questionnaire;
+    endResetModel();
 }

@@ -17,6 +17,8 @@ qt_add_executable(Kwestions
     addquestiondialog.h
     addquestiondialog.cpp
     addquestiondialog.ui
+    questionnaireselectionmodel.h
+    questionnaireselectionmodel.cpp
     questionmodel.h
     questionmodel.cpp
     responseoptionmodel.h

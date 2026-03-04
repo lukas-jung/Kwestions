@@ -2,6 +2,7 @@
 #define QUESTIONMODEL_H
 
 #include "business_logic/question.h"
+#include "business_logic/questionnaire.h"
 #include <QAbstractItemModel>
 
 class QuestionModel : public QAbstractItemModel
@@ -9,7 +10,7 @@ class QuestionModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    explicit QuestionModel(QObject *parent = nullptr);
+    QuestionModel(kwestions::Questionnaire *questionnaire, QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section,
@@ -28,9 +29,10 @@ public:
     // Custom methods:
 
     void append_question(kwestions::Question question);
+    void set_questionnaire(kwestions::Questionnaire *questionnaire);
 
 private:
-    std::vector<kwestions::Question> questions_;
+    kwestions::Questionnaire *questionnaire_;
 };
 
 #endif // QUESTIONMODEL_H
