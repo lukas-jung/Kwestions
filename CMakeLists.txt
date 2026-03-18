@@ -29,6 +29,9 @@ qt_add_executable(Kwestions
     business_logic/responseoption.cpp
     business_logic/questionnaire.h
     business_logic/questionnaire.cpp
+    newquestionnairedialog.h
+    newquestionnairedialog.cpp
+    newquestionnairedialog.ui
 )
 
 target_link_libraries(Kwestions

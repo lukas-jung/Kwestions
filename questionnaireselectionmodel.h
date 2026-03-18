@@ -17,6 +17,9 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    // Custom methods:
+    void append_questionnaire(kwestions::Questionnaire questionnaire);
+
 private:
     std::vector<kwestions::Questionnaire> *questionnaires_;
 };

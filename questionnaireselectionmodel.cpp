@@ -27,3 +27,13 @@ QVariant QuestionnaireSelectionModel::data(const QModelIndex &index, int role) c
         return QVariant();
     }
 }
+
+void QuestionnaireSelectionModel::append_questionnaire(kwestions::Questionnaire questionnaire)
+{
+    int insertion_position = questionnaires_->size();
+    beginInsertRows(QModelIndex(), insertion_position, insertion_position);
+
+    questionnaires_->push_back(questionnaire);
+
+    endInsertRows();
+}

@@ -9,7 +9,7 @@ namespace kwestions {
 class Questionnaire
 {
 public:
-    Questionnaire();
+    Questionnaire(std::string title = "");
 
     const std::string &title() const;
     void set_title(const std::string &title);

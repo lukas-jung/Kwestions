@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "addquestiondialog.h"
+#include "newquestionnairedialog.h"
 #include "questionmodel.h"
 #include "questionnaireselectionmodel.h"
 #include <QMainWindow>
@@ -23,11 +24,15 @@ public:
 
 private slots:
     void showAddQuestionDialog();
+    void createNewQuestionnaire();
 
 private:
     Ui::MainWindow *ui;
     std::vector<kwestions::Questionnaire> questionnaires_;
+
     QuestionnaireSelectionModel *questionnaireSelectionModel_;
+    QPointer<NewQuestionnaireDialog> newQuestionnaireDialog_;
+
     QuestionModel *questionItemModel_;
     QPointer<AddQuestionDialog> addQuestionDialog_;
 };

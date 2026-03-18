@@ -39,7 +39,20 @@
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="newQuestionnaireButton">
+        <property name="text">
+         <string>New Questionnaire</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>

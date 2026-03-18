@@ -2,7 +2,9 @@
 
 namespace kwestions {
 
-Questionnaire::Questionnaire() {}
+Questionnaire::Questionnaire(std::string title)
+    : title_(title)
+{}
 
 const std::string &Questionnaire::title() const
 {
