@@ -10,7 +10,7 @@ class QuestionModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    QuestionModel(kwestions::Questionnaire *questionnaire, QObject *parent = nullptr);
+    QuestionModel(kwestions::Questionnaire *questionnaire_ptr, QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section,
@@ -29,10 +29,10 @@ public:
     // Custom methods:
 
     void append_question(kwestions::Question question);
-    void set_questionnaire(kwestions::Questionnaire *questionnaire);
+    void set_questionnaire(kwestions::Questionnaire *questionnaire_ptr);
 
 private:
-    kwestions::Questionnaire *questionnaire_;
+    kwestions::Questionnaire *questionnaire_ptr_;
 };
 
 #endif // QUESTIONMODEL_H

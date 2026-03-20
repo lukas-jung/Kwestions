@@ -1,13 +1,9 @@
 #include "questionmodel.h"
 
-QuestionModel::QuestionModel(kwestions::Questionnaire *questionnaire, QObject *parent)
+QuestionModel::QuestionModel(kwestions::Questionnaire *questionnaire_ptr, QObject *parent)
     : QAbstractItemModel(parent)
-    , questionnaire_(questionnaire)
-{
-    // questions_.push_back(kwestions::Question("Hello?"));
-    // questions_.push_back(kwestions::Question("Hello? Anyone there?"));
-    // questions_.push_back(kwestions::Question("Helloooooo?"));
-}
+    , questionnaire_ptr_(questionnaire_ptr)
+{}
 
 QVariant QuestionModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
@@ -37,7 +33,7 @@ int QuestionModel::rowCount(const QModelIndex &parent) const
         return 0;
     }
 
-    return questionnaire_ ? questionnaire_->questions().size() : 0;
+    return questionnaire_ptr_ ? questionnaire_ptr_->questions().size() : 0;
 }
 
 int QuestionModel::columnCount(const QModelIndex &parent) const
@@ -55,8 +51,8 @@ QVariant QuestionModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    if (role == Qt::DisplayRole && questionnaire_) {
-        const kwestions::Question &question = questionnaire_->questions()[index.row()];
+    if (role == Qt::DisplayRole && questionnaire_ptr_) {
+        const kwestions::Question &question = questionnaire_ptr_->questions()[index.row()];
         return QVariant(QString::fromStdString(question.text()));
     }
 
@@ -65,19 +61,19 @@ QVariant QuestionModel::data(const QModelIndex &index, int role) const
 
 void QuestionModel::append_question(kwestions::Question question)
 {
-    if (questionnaire_) {
-        int insertion_position = questionnaire_->questions().size();
+    if (questionnaire_ptr_) {
+        int insertion_position = questionnaire_ptr_->questions().size();
         beginInsertRows(QModelIndex(), insertion_position, insertion_position);
 
-        questionnaire_->append_question(question);
+        questionnaire_ptr_->append_question(question);
 
         endInsertRows();
     }
 }
 
-void QuestionModel::set_questionnaire(kwestions::Questionnaire *questionnaire)
+void QuestionModel::set_questionnaire(kwestions::Questionnaire *questionnaire_ptr)
 {
     beginResetModel();
-    questionnaire_ = questionnaire;
+    questionnaire_ptr_ = questionnaire_ptr;
     endResetModel();
 }
