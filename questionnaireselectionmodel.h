@@ -11,7 +11,7 @@ class QuestionnaireSelectionModel : public QAbstractListModel
 
 public:
     QuestionnaireSelectionModel(
-        std::vector<std::unique_ptr<kwestions::Questionnaire>> *questionnaires,
+        std::vector<std::unique_ptr<kwestions::Questionnaire>> *questionnaires_ptr,
         QObject *parent = nullptr);
 
     // Basic functionality:
@@ -23,7 +23,7 @@ public:
     void append_questionnaire(std::unique_ptr<kwestions::Questionnaire> questionnaire_uptr);
 
 private:
-    std::vector<std::unique_ptr<kwestions::Questionnaire>> *questionnaires_;
+    std::vector<std::unique_ptr<kwestions::Questionnaire>> *questionnaires_ptr_;
 };
 
 #endif // QUESTIONNAIRESELECTIONMODEL_H

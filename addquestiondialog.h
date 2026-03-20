@@ -27,7 +27,7 @@ public:
 private:
     Ui::AddQuestionDialog *ui;
 
-    std::unique_ptr<kwestions::Question> question_ptr_;
+    std::unique_ptr<kwestions::Question> question_uptr_;
 
     ResponseOptionModel *responseOptionModel_;
 };

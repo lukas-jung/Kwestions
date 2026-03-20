@@ -4,12 +4,12 @@
 AddQuestionDialog::AddQuestionDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddQuestionDialog)
-    , question_ptr_(std::make_unique<kwestions::Question>())
+    , question_uptr_(std::make_unique<kwestions::Question>())
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
 
-    responseOptionModel_ = new ResponseOptionModel(question_ptr_.get(), this);
+    responseOptionModel_ = new ResponseOptionModel(question_uptr_.get(), this);
     ui->treeView->setModel(responseOptionModel_);
 
     connect(ui->toolButton,
@@ -25,11 +25,11 @@ AddQuestionDialog::~AddQuestionDialog()
 
 std::unique_ptr<kwestions::Question> AddQuestionDialog::get_and_reset_question()
 {
-    auto question_ptr = std::exchange(question_ptr_, std::make_unique<kwestions::Question>());
-    responseOptionModel_->reset_question(question_ptr_.get());
+    auto question_uptr = std::exchange(question_uptr_, std::make_unique<kwestions::Question>());
+    responseOptionModel_->reset_question(question_uptr_.get());
 
-    question_ptr->set_text(ui->plainTextEdit->toPlainText().toStdString());
-    return question_ptr;
+    question_uptr->set_text(ui->plainTextEdit->toPlainText().toStdString());
+    return question_uptr;
 }
 
 // void AddQuestionDialog::accept()
