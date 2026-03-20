@@ -1,7 +1,7 @@
 #include "questionnaireselectionmodel.h"
 
 QuestionnaireSelectionModel::QuestionnaireSelectionModel(
-    std::vector<kwestions::Questionnaire> *questionnaires, QObject *parent)
+    std::vector<std::unique_ptr<kwestions::Questionnaire>> *questionnaires, QObject *parent)
     : QAbstractListModel(parent)
     , questionnaires_(questionnaires)
 {}
@@ -22,18 +22,19 @@ QVariant QuestionnaireSelectionModel::data(const QModelIndex &index, int role) c
     }
 
     if (role == Qt::DisplayRole) {
-        return QVariant(questionnaires_->at(index.row()).title().c_str());
+        return QVariant(questionnaires_->at(index.row())->title().c_str());
     } else {
         return QVariant();
     }
 }
 
-void QuestionnaireSelectionModel::append_questionnaire(kwestions::Questionnaire questionnaire)
+void QuestionnaireSelectionModel::append_questionnaire(
+    std::unique_ptr<kwestions::Questionnaire> questionnaire_uptr)
 {
     int insertion_position = questionnaires_->size();
     beginInsertRows(QModelIndex(), insertion_position, insertion_position);
 
-    questionnaires_->push_back(questionnaire);
+    questionnaires_->push_back(std::move(questionnaire_uptr));
 
     endInsertRows();
 }

@@ -2,6 +2,7 @@
 #define NEWQUESTIONNAIREDIALOG_H
 
 #include "business_logic/questionnaire.h"
+#include <memory>
 #include <QDialog>
 
 namespace Ui {
@@ -16,7 +17,7 @@ public:
     explicit NewQuestionnaireDialog(QWidget *parent = nullptr);
     ~NewQuestionnaireDialog();
 
-    kwestions::Questionnaire questionnaire();
+    std::unique_ptr<kwestions::Questionnaire> questionnaire();
 
 private:
     Ui::NewQuestionnaireDialog *ui;

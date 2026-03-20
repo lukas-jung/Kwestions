@@ -5,6 +5,7 @@
 #include "newquestionnairedialog.h"
 #include "questionmodel.h"
 #include "questionnaireselectionmodel.h"
+#include <memory>
 #include <QMainWindow>
 #include <QPointer>
 
@@ -28,7 +29,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    std::vector<kwestions::Questionnaire> questionnaires_;
+    std::vector<std::unique_ptr<kwestions::Questionnaire>> questionnaires_;
 
     QuestionnaireSelectionModel *questionnaireSelectionModel_;
     QPointer<NewQuestionnaireDialog> newQuestionnaireDialog_;

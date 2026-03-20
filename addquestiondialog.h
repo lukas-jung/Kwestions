@@ -3,6 +3,7 @@
 
 #include "business_logic/question.h"
 #include "responseoptionmodel.h"
+#include <memory>
 
 #include <QDialog>
 

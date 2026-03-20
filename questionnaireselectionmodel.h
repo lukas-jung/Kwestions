@@ -2,6 +2,7 @@
 #define QUESTIONNAIRESELECTIONMODEL_H
 
 #include "business_logic/questionnaire.h"
+#include <memory>
 #include <QAbstractListModel>
 
 class QuestionnaireSelectionModel : public QAbstractListModel
@@ -9,8 +10,9 @@ class QuestionnaireSelectionModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    QuestionnaireSelectionModel(std::vector<kwestions::Questionnaire> *questionnaires,
-                                QObject *parent = nullptr);
+    QuestionnaireSelectionModel(
+        std::vector<std::unique_ptr<kwestions::Questionnaire>> *questionnaires,
+        QObject *parent = nullptr);
 
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -18,10 +20,10 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     // Custom methods:
-    void append_questionnaire(kwestions::Questionnaire questionnaire);
+    void append_questionnaire(std::unique_ptr<kwestions::Questionnaire> questionnaire_uptr);
 
 private:
-    std::vector<kwestions::Questionnaire> *questionnaires_;
+    std::vector<std::unique_ptr<kwestions::Questionnaire>> *questionnaires_;
 };
 
 #endif // QUESTIONNAIRESELECTIONMODEL_H

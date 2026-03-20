@@ -13,7 +13,7 @@ NewQuestionnaireDialog::~NewQuestionnaireDialog()
     delete ui;
 }
 
-kwestions::Questionnaire NewQuestionnaireDialog::questionnaire()
+std::unique_ptr<kwestions::Questionnaire> NewQuestionnaireDialog::questionnaire()
 {
-    return kwestions::Questionnaire(ui->lineEdit->text().toStdString());
+    return std::make_unique<kwestions::Questionnaire>(ui->lineEdit->text().toStdString());
 }

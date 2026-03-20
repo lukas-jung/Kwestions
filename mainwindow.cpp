@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->comboBox, &QComboBox::currentIndexChanged, [this](int index) {
         this->questionItemModel_->set_questionnaire(index == -1 ? nullptr
-                                                                : &questionnaires_.at(index));
+                                                                : questionnaires_.at(index).get());
     });
 
     connect(ui->addQuestionButton, &QPushButton::clicked, this, &MainWindow::showAddQuestionDialog);
