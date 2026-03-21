@@ -26,8 +26,20 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+
+    // Drag & Drop:
+    bool dropMimeData(const QMimeData *data,
+                      Qt::DropAction action,
+                      int row,
+                      int column,
+                      const QModelIndex &parent) override;
+
+    Qt::DropActions supportedDropActions() const override;
+
     // Custom methods:
 
+    bool move_row_from_to(int source_row, int destination_row);
     void append_question(kwestions::Question question);
     void set_questionnaire(kwestions::Questionnaire *questionnaire_ptr);
 
