@@ -1,5 +1,10 @@
 #include "questionmodel.h"
+#include <QChar>
 #include <QMimeData>
+
+namespace {
+enum class QuestionCol : int { letter = 0, text = 1 };
+}
 
 QuestionModel::QuestionModel(kwestions::Questionnaire *questionnaire_ptr, QObject *parent)
     : QAbstractItemModel(parent)
@@ -9,7 +14,14 @@ QuestionModel::QuestionModel(kwestions::Questionnaire *questionnaire_ptr, QObjec
 QVariant QuestionModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-        return QString("Question");
+        switch (QuestionCol(section)) {
+        case QuestionCol::letter:
+            return QString("Letter");
+        case QuestionCol::text:
+            return QString("Question");
+        default:
+            break;
+        }
     }
     return QVariant();
 }
@@ -43,7 +55,7 @@ int QuestionModel::columnCount(const QModelIndex &parent) const
         return 0;
     }
 
-    return 1;
+    return 2;
 }
 
 QVariant QuestionModel::data(const QModelIndex &index, int role) const
@@ -52,9 +64,17 @@ QVariant QuestionModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    if (role == Qt::DisplayRole && questionnaire_ptr_) {
-        const kwestions::Question &question = questionnaire_ptr_->questions()[index.row()];
-        return QVariant(QString::fromStdString(question.text()));
+    if (!questionnaire_ptr_) {
+        return QVariant();
+    }
+
+    if (role == Qt::DisplayRole) {
+        if (QuestionCol(index.column()) == QuestionCol::letter) {
+            return QVariant(QChar(index.row() % 26 + 'A'));
+        } else if (QuestionCol(index.column()) == QuestionCol::text) {
+            const kwestions::Question &question = questionnaire_ptr_->questions()[index.row()];
+            return QVariant(QString::fromStdString(question.text()));
+        }
     }
 
     return QVariant();
