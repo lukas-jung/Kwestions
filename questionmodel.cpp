@@ -162,6 +162,13 @@ void QuestionModel::append_question(kwestions::Question question)
     }
 }
 
+void QuestionModel::set_question_at(std::size_t i, kwestions::Question question)
+{
+    questionnaire_ptr_->set_question_at_index(i, question);
+    auto index = createIndex(i, static_cast<int>(QuestionCol::text));
+    emit dataChanged(index, index, {Qt::DisplayRole});
+}
+
 void QuestionModel::set_questionnaire(kwestions::Questionnaire *questionnaire_ptr)
 {
     beginResetModel();

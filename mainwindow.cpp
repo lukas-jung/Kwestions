@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QTreeView>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -19,11 +21,17 @@ MainWindow::MainWindow(QWidget *parent)
                                                                 : questionnaires_.at(index).get());
     });
 
-    connect(ui->addQuestionButton, &QPushButton::clicked, this, &MainWindow::showAddQuestionDialog);
     connect(ui->newQuestionnaireButton,
             &QPushButton::clicked,
             this,
             &MainWindow::createNewQuestionnaire);
+
+    connect(ui->treeView,
+            &QAbstractItemView::doubleClicked,
+            this,
+            &MainWindow::showEditQuestionDialog);
+
+    connect(ui->addQuestionButton, &QPushButton::clicked, this, &MainWindow::showAddQuestionDialog);
 }
 
 MainWindow::~MainWindow()
@@ -34,9 +42,32 @@ MainWindow::~MainWindow()
 void MainWindow::showAddQuestionDialog()
 {
     if (!addQuestionDialog_) {
-        addQuestionDialog_ = new AddQuestionDialog(this);
+        addQuestionDialog_ = new AddQuestionDialog(std::make_unique<kwestions::Question>(), this);
         connect(addQuestionDialog_, &QDialog::accepted, [this]() {
             questionItemModel_->append_question(*this->addQuestionDialog_->get_and_reset_question());
+        });
+    }
+    addQuestionDialog_->open();
+}
+
+void MainWindow::showEditQuestionDialog(const QModelIndex &index)
+{
+    int current_questionnaire_index = ui->comboBox->currentIndex();
+    if (current_questionnaire_index == -1) {
+        return;
+    }
+    kwestions::Questionnaire *current_questionnaire_ptr
+        = questionnaires_.at(current_questionnaire_index).get();
+
+    int current_question_index = index.row();
+    std::unique_ptr<kwestions::Question> question_uptr = std::make_unique<kwestions::Question>(
+        current_questionnaire_ptr->questions()[current_question_index]);
+
+    if (!addQuestionDialog_) {
+        addQuestionDialog_ = new AddQuestionDialog(std::move(question_uptr), this);
+        connect(addQuestionDialog_, &QDialog::accepted, [this, current_question_index]() {
+            questionItemModel_->set_question_at(current_question_index,
+                                                *this->addQuestionDialog_->get_and_reset_question());
         });
     }
     addQuestionDialog_->open();

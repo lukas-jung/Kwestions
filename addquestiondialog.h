@@ -16,7 +16,8 @@ class AddQuestionDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddQuestionDialog(QWidget *parent = nullptr);
+    explicit AddQuestionDialog(std::unique_ptr<kwestions::Question> question_uptr,
+                               QWidget *parent = nullptr);
     ~AddQuestionDialog();
 
     std::unique_ptr<kwestions::Question> get_and_reset_question();
