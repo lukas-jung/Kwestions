@@ -48,6 +48,13 @@
        </spacer>
       </item>
       <item>
+       <widget class="QPushButton" name="removeQuestionnaireButton">
+        <property name="text">
+         <string>Remove Questionnaire</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="newQuestionnaireButton">
         <property name="text">
          <string>New Questionnaire</string>

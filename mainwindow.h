@@ -28,6 +28,7 @@ private slots:
     void removeQuestion();
     void showEditQuestionDialog(const QModelIndex &index);
     void createNewQuestionnaire();
+    void removeQuestionnaire();
 
 private:
     Ui::MainWindow *ui;

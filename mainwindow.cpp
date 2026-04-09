@@ -33,6 +33,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->addQuestionButton, &QPushButton::clicked, this, &MainWindow::showAddQuestionDialog);
     connect(ui->removeQuestionButton, &QPushButton::clicked, this, &MainWindow::removeQuestion);
+    connect(ui->removeQuestionnaireButton,
+            &QPushButton::clicked,
+            this,
+            &MainWindow::removeQuestionnaire);
 }
 
 MainWindow::~MainWindow()
@@ -93,4 +97,13 @@ void MainWindow::createNewQuestionnaire()
         });
     }
     newQuestionnaireDialog_->open();
+}
+
+void MainWindow::removeQuestionnaire()
+{
+    int current_i = ui->comboBox->currentIndex();
+
+    if (current_i != -1) {
+        questionnaireSelectionModel_->delete_questionnaire_at(current_i);
+    }
 }

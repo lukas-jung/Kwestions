@@ -38,3 +38,10 @@ void QuestionnaireSelectionModel::append_questionnaire(
 
     endInsertRows();
 }
+
+void QuestionnaireSelectionModel::delete_questionnaire_at(std::size_t i)
+{
+    beginRemoveRows(QModelIndex(), i, i);
+    questionnaires_ptr_->erase(questionnaires_ptr_->begin() + i);
+    endRemoveRows();
+}

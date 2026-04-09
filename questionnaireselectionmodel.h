@@ -23,6 +23,7 @@ public:
 
     // Custom methods:
     void append_questionnaire(std::unique_ptr<kwestions::Questionnaire> questionnaire_uptr);
+    void delete_questionnaire_at(std::size_t i);
 
 private:
     std::vector<std::unique_ptr<kwestions::Questionnaire>> *questionnaires_ptr_;
