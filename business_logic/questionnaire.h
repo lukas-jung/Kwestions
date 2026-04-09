@@ -17,6 +17,7 @@ public:
     const std::span<const Question> questions() const;
     void append_question(Question question);
     void set_question_at_index(std::size_t index, Question question);
+    void delete_question_at(std::size_t i);
 
     bool move_question_from_to(std::size_t from, std::size_t to);
 

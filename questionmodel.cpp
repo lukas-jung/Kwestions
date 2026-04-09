@@ -162,6 +162,13 @@ void QuestionModel::append_question(kwestions::Question question)
     }
 }
 
+void QuestionModel::delete_question_at(std::size_t i)
+{
+    beginRemoveRows(QModelIndex(), i, i);
+    questionnaire_ptr_->delete_question_at(i);
+    endRemoveRows();
+}
+
 void QuestionModel::set_question_at(std::size_t i, kwestions::Question question)
 {
     questionnaire_ptr_->set_question_at_index(i, question);

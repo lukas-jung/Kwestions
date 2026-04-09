@@ -98,6 +98,13 @@
            </spacer>
           </item>
           <item>
+           <widget class="QPushButton" name="removeQuestionButton">
+            <property name="text">
+             <string>Remove Question</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="addQuestionButton">
             <property name="text">
              <string>Add Question</string>

@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
             &MainWindow::showEditQuestionDialog);
 
     connect(ui->addQuestionButton, &QPushButton::clicked, this, &MainWindow::showAddQuestionDialog);
+    connect(ui->removeQuestionButton, &QPushButton::clicked, this, &MainWindow::removeQuestion);
 }
 
 MainWindow::~MainWindow()
@@ -48,6 +49,15 @@ void MainWindow::showAddQuestionDialog()
         });
     }
     addQuestionDialog_->open();
+}
+
+void MainWindow::removeQuestion()
+{
+    QModelIndex current_index = ui->treeView->currentIndex();
+
+    if (current_index.isValid() && current_index.row() != -1) {
+        questionItemModel_->delete_question_at(current_index.row());
+    }
 }
 
 void MainWindow::showEditQuestionDialog(const QModelIndex &index)

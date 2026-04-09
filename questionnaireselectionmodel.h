@@ -5,6 +5,8 @@
 #include <memory>
 #include <QAbstractListModel>
 
+//TODO: Selection model is a bad name because it is used in Qt. Rename it!
+
 class QuestionnaireSelectionModel : public QAbstractListModel
 {
     Q_OBJECT

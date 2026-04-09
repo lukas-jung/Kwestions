@@ -31,6 +31,11 @@ void Questionnaire::set_question_at_index(std::size_t index, Question question)
     questions_.at(index) = question;
 }
 
+void Questionnaire::delete_question_at(std::size_t i)
+{
+    questions_.erase(questions_.begin() + i);
+}
+
 bool Questionnaire::move_question_from_to(std::size_t from, std::size_t to)
 {
     if (from == to || from >= questions_.size() || to >= questions_.size()) {

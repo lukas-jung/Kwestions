@@ -25,6 +25,7 @@ public:
 
 private slots:
     void showAddQuestionDialog();
+    void removeQuestion();
     void showEditQuestionDialog(const QModelIndex &index);
     void createNewQuestionnaire();
 
